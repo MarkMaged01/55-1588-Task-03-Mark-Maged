@@ -1,5 +1,6 @@
 package com.scalable.task03.service;
 
+import com.scalable.task03.model.User;
 import com.scalable.task03.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,10 +16,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    // TODO: See Task 3 spec — CustomUserDetailsService.
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        throw new UsernameNotFoundException("Not implemented");
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .authorities("ROLE_" + user.getRole().name())
+                .build();
     }
 }
