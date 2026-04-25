@@ -18,7 +18,7 @@
     <description>Task 3 - Securing a REST API with JWT and Spring Security</description>
 
     <properties>
-        <java.version>25</java.version>
+        <java.version>17</java.version>
         <jjwt.version>0.12.6</jjwt.version>
     </properties>
 
