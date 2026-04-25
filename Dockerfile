@@ -1,16 +1,15 @@
-# Stage 1: Build inside Docker
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+# Stage 1: Build
+FROM maven:3.9.9-eclipse-temurin-25-alpine AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
-FROM eclipse-temurin:21-jre
+# Stage 2: Run
+FROM eclipse-temurin:25.0.2_10-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
-# Your personalized Identity (Grader checks these)
 ENV USER_NAME=Docker_Mark_Maged
 ENV ID=Docker_55_1588
 
